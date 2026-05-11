@@ -9,27 +9,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core5Compat Gui LinguistTools Network WebEn
 
 qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES bg bn ca cs de el es eu fa fi fr hr hu id it ja ko lt mk nl no pa pl pt ro ru si sr strings sv sw tr vi zh)
 
-qt_add_executable(clipgrab WIN32 MACOSX_BUNDLE
-    clipgrab.cpp clipgrab.h
-    converter.cpp converter.h
-    converter_copy.cpp converter_copy.h
-    converter_ffmpeg.cpp converter_ffmpeg.h
-    download_list_model.cpp download_list_model.h
-    helper_downloader.cpp helper_downloader.h helper_downloader.ui
-    main.cpp
-    mainwindow.cpp mainwindow.h mainwindow.ui
-    message_dialog.cpp message_dialog.h message_dialog.ui
-    metadata-dialog.ui
-    notifications.cpp notifications.h
-    update_message.ui
-    video.cpp video.h
-    web_engine_view.cpp web_engine_view.h
-    youtube_dl.cpp youtube_dl.h
-    images/images.qrc
-)
-target_include_directories(clipgrab PRIVATE
-    .
-)
+add_subdirectory(src)
 
 target_compile_definitions(clipgrab PRIVATE
     CLIPGRAB_VERSION=3.9.14
