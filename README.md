@@ -17,7 +17,7 @@ In addition, ffmpeg (no developer libs necessary) needs to be installed.
 ## Compiling
 To compile ClipGrab, simply execute the following command in a build directory:
 ```
-qmake6 ../clipgrab.pro && make
+cmake .. && cmake --build .
 ```
 
 This will create an executable "clipgrab" that you can start via ./clipgrab.
