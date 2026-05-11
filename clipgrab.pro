@@ -12,6 +12,7 @@ QT += gui
 QT += network
 QT += xml
 QT += webenginewidgets
+QT += core5compat
 
 # Input
 HEADERS += converter.h \

@@ -67,7 +67,7 @@ public:
     {
         this->setAudioMuted(true);
         SearchWebEngineUrlRequestInterceptor* interceptor = new SearchWebEngineUrlRequestInterceptor();
-        this->profile()->setRequestInterceptor(interceptor);
+        this->profile()->setUrlRequestInterceptor(interceptor);
         connect(interceptor, SIGNAL(intercepted(QUrl)), this, SLOT(handleInterceptedUrl(QUrl)));
     }
 
@@ -113,7 +113,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(ClipGrab* cg, QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    MainWindow(ClipGrab* cg, QWidget *parent = 0, Qt::WindowFlags flags = Qt::Widget);
     ~MainWindow();
     void init();
 

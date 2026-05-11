@@ -30,6 +30,7 @@ along with ClipGrab.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtXml>
 #include <QtDebug>
 #include <QtWidgets>
+#include <QRegExp>
 
 #include "video.h"
 #include "converter.h"

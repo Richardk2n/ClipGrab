@@ -22,6 +22,7 @@
 
 
 #include "converter_ffmpeg.h"
+#include <QRegExp>
 
 void ffmpegThread::run()
 {

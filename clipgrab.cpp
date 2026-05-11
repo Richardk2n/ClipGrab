@@ -21,6 +21,8 @@
 
 
 #include "clipgrab.h"
+#include <QSslConfiguration>
+#include <QRegularExpression>
 
 ClipGrab::ClipGrab()
 {
@@ -211,7 +213,7 @@ ClipGrab::ClipGrab()
     //*
     //* Add Mozilla Root CA certificats to avoid errors from missing system certificates
     //*
-    QSslSocket::addDefaultCaCertificates(":/crt/mozilla-root-cas.txt");
+    QSslConfiguration::defaultConfiguration().addCaCertificates(":/crt/mozilla-root-cas.txt");
 
 
     //*
@@ -342,7 +344,7 @@ void ClipGrab::parseUpdateInfo(QNetworkReply* reply)
 
         if (!this->availableUpdates.isEmpty())
         {
-            qSort(this->availableUpdates.begin(), this->availableUpdates.end());
+            std::sort(this->availableUpdates.begin(), this->availableUpdates.end());
 
             //Create changelog document
             QDomDocument updateNotesDocument("html");
@@ -482,7 +484,7 @@ void ClipGrab::startUpdateDownload()
 {
     QString updateUrl = this->availableUpdates.last().url;
     QString updateFilePattern = updateUrl.split("/").last();
-    updateFilePattern.insert(updateFilePattern.lastIndexOf(QRegExp("\\.dmg|\\.exe|\\.tar")), "-XXXXXX");
+    updateFilePattern.insert(updateFilePattern.lastIndexOf(QRegularExpression("\\.dmg|\\.exe|\\.tar")), "-XXXXXX");
     this->updateFile = new QTemporaryFile(QDir::tempPath() + "/" + updateFilePattern);
     this->updateFile->open();
     qDebug() << "Downloading update to " << this->updateFile->fileName();
@@ -543,7 +545,7 @@ void ClipGrab::updateDownloadFinished()
     //Close and rename to avoid problems with file locks
     updateFile->setAutoRemove(false);
     updateFile->close();
-    updateFile->rename(updateFile->fileName().insert(updateFile->fileName().lastIndexOf(QRegExp("\\.dmg|\\.exe|\\.tar")), "-update"));
+    updateFile->rename(updateFile->fileName().insert(updateFile->fileName().lastIndexOf(QRegularExpression("\\.dmg|\\.exe|\\.tar")), "-update"));
 
     if (!QDesktopServices::openUrl(QUrl::fromLocalFile(updateFile->fileName())))
     {
@@ -602,7 +604,7 @@ void ClipGrab::startYoutubeDlDownload() {
     QString youtubeDlUrl = settings.value("youtubeDlUrl", "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp").toString();
     QNetworkRequest request;
     request.setUrl(QUrl(youtubeDlUrl));
-    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+    //request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     QNetworkAccessManager* youtubeDlNAM = new QNetworkAccessManager();
     QNetworkReply* reply = youtubeDlNAM->get(request);
 
@@ -618,7 +620,7 @@ void ClipGrab::startYoutubeDlDownload() {
     connect(reply, &QNetworkReply::sslErrors, [=](QList<QSslError> errors) {
         for (int i = 0; i < errors.length(); i++) {
             QString errorString = errors.at(i).errorString();
-            QString certInfo = errors.at(i).certificate().issuerDisplayName() + " " + errors.at(i).certificate().subjectDisplayName() + " " +  errors.at(i).certificate().serialNumber() + " " + errors.at(i).error();
+            QString certInfo = errors.at(i).certificate().issuerDisplayName() + " " + errors.at(i).certificate().subjectDisplayName() + " " +  errors.at(i).certificate().serialNumber() + " " + std::to_string((int)errors.at(i).error()).c_str();
             errorHandler(tr("SSL error: %1 \n%2").arg(errorString).arg(certInfo));
         }
     });

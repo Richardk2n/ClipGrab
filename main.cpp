@@ -52,8 +52,12 @@ int main(int argc, char *argv[])
 
     QSettings settings;
     if (settings.allKeys().isEmpty()) {
-        static const QChar key[] = {
+        //static const QChar key[] = {
+        //    0x0050, 0x0068, 0x0069, 0x006c, 0x0069, 0x0070, 0x0070, 0x0020, 0x0053, 0x0063, 0x0068, 0x006d, 0x0069, 0x0065, 0x0064, 0x0065, 0x0072};
+        static const char key_[] = {
             0x0050, 0x0068, 0x0069, 0x006c, 0x0069, 0x0070, 0x0070, 0x0020, 0x0053, 0x0063, 0x0068, 0x006d, 0x0069, 0x0065, 0x0064, 0x0065, 0x0072};
+        static QChar key[17];
+        memcpy(key, key_, 17);
         QSettings legacySettings(QString::fromRawData(key, sizeof(key) / sizeof(QChar)), "ClipGrab");
         QStringList legacyKeys = legacySettings.allKeys();
         QStringList ignoredKeys = {"youtubePlayerUrl", "youtubePlayerJS", "youtubePlayerSignatureMethodName"};
