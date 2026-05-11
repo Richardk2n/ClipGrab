@@ -4,9 +4,9 @@ project(clipgrab VERSION 3.9.14 LANGUAGES C CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core5Compat Gui Network WebEngineWidgets Widgets Xml)
+find_package(Qt6 REQUIRED COMPONENTS Core5Compat Gui LinguistTools Network WebEngineWidgets Widgets Xml)
 
-qt_standard_project_setup()
+qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES bg bn ca cs de el es eu fa fi fr hr hu id it ja ko lt mk nl no pa pl pt ro ru si sr strings sv sw tr vi zh)
 
 qt_add_executable(clipgrab WIN32 MACOSX_BUNDLE
     clipgrab.cpp clipgrab.h
@@ -58,48 +58,8 @@ qt_add_resources(clipgrab "resources"
     FILES
         ${resources_resource_files}
 )
-set(resources1_resource_files
-    "clipgrab_bg.qm"
-    "clipgrab_bn.qm"
-    "clipgrab_ca.qm"
-    "clipgrab_cs.qm"
-    "clipgrab_de.qm"
-    "clipgrab_el.qm"
-    "clipgrab_es.qm"
-    "clipgrab_eu.qm"
-    "clipgrab_fa.qm"
-    "clipgrab_fi.qm"
-    "clipgrab_fr.qm"
-    "clipgrab_hr.qm"
-    "clipgrab_hu.qm"
-    "clipgrab_id.qm"
-    "clipgrab_it.qm"
-    "clipgrab_ja.qm"
-    "clipgrab_ko.qm"
-    "clipgrab_lt.qm"
-    "clipgrab_mk.qm"
-    "clipgrab_nl.qm"
-    "clipgrab_no.qm"
-    "clipgrab_pa.qm"
-    "clipgrab_pl.qm"
-    "clipgrab_pt.qm"
-    "clipgrab_ro.qm"
-    "clipgrab_ru.qm"
-    "clipgrab_si.qm"
-    "clipgrab_sr.qm"
-    "clipgrab_sv.qm"
-    "clipgrab_sw.qm"
-    "clipgrab_tr.qm"
-    "clipgrab_vi.qm"
-    "clipgrab_zh.qm"
-)
 
-qt_add_resources(clipgrab "resources1"
-    PREFIX
-        "/lng"
-    FILES
-        ${resources1_resource_files}
-)
+qt_add_translations(TARGETS clipgrab TS_OUTPUT_DIRECTORY i18n RESOURCE_PREFIX lng)
 set(resources2_resource_files
     "mozilla-root-cas.txt"
 )
