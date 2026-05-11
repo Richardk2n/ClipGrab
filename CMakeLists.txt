@@ -3,6 +3,7 @@ project(clipgrab VERSION 3.9.14 LANGUAGES C CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core5Compat Gui LinguistTools Network WebEngineWidgets Widgets Xml)
 
@@ -24,6 +25,7 @@ qt_add_executable(clipgrab WIN32 MACOSX_BUNDLE
     video.cpp video.h
     web_engine_view.cpp web_engine_view.h
     youtube_dl.cpp youtube_dl.h
+    images/images.qrc
 )
 target_include_directories(clipgrab PRIVATE
     .
@@ -45,19 +47,6 @@ target_link_libraries(clipgrab PRIVATE
 
 
 # Resources:
-set(resources_resource_files
-    "icon.png"
-    "logo.png"
-    "paypal-logo.png"
-    "splash.png"
-)
-
-qt_add_resources(clipgrab "resources"
-    PREFIX
-        "/img"
-    FILES
-        ${resources_resource_files}
-)
 
 qt_add_translations(TARGETS clipgrab TS_OUTPUT_DIRECTORY i18n RESOURCE_PREFIX lng)
 set(resources2_resource_files
