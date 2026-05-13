@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/crt">
-        <file>mozilla-root-cas.txt</file>
+        <file>mozilla-root-cas.crt</file>
     </qresource>
     <qresource prefix="/search">
         <file>loading-progress.html</file>

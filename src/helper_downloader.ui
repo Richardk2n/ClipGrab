@@ -31,10 +31,10 @@
    <item row="1" column="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeType">
-      <enum>QSizePolicy::Expanding</enum>
+      <enum>QSizePolicy::Policy::Expanding</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -47,7 +47,7 @@
    <item row="3" column="0">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -148,7 +148,7 @@ font-size: 18px;</string>
             </size>
            </property>
            <property name="pixmap">
-            <pixmap resource="resources.qrc">:/img/icon.png</pixmap>
+            <pixmap resource="../images/images.qrc">:/img/icon.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -161,10 +161,10 @@ font-size: 18px;</string>
       <item row="0" column="1">
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
+         <enum>QSizePolicy::Policy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -180,7 +180,7 @@ font-size: 18px;</string>
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../images/images.qrc"/>
  </resources>
  <connections/>
 </ui>

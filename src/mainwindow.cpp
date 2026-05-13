@@ -633,10 +633,13 @@ void MainWindow::handleSearchResults(video* searchPlaylist)
         QString font = fontDatabase.systemFont(QFontDatabase::GeneralFont).family();
         QString fontFamily = "'" + font + "',  sans-serif";
     #endif
+    auto palette = QApplication::palette();
+    auto bgColor = palette.color(QWidget::backgroundRole());
+    auto fgColor = palette.color(QWidget::foregroundRole());
     searchHtml.append("<!doctype html>");
     searchHtml.append("<html>");
     searchHtml.append("<head>");
-    searchHtml.append("<style>body {font-family: " + fontFamily + "}</style>");
+    searchHtml.append("<style>body {font-family: " + fontFamily + "; background: " + bgColor.name() + "} a {color: " + fgColor.name() + "}</style>");
     searchHtml.append("<link rel=\"stylesheet\" href=\"qrc:///search/search-styles.css\"></link>");
     searchHtml.append("</head>");
     searchHtml.append("<body>");

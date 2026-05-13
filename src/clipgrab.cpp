@@ -213,7 +213,7 @@ ClipGrab::ClipGrab()
     //*
     //* Add Mozilla Root CA certificats to avoid errors from missing system certificates
     //*
-    QSslConfiguration::defaultConfiguration().addCaCertificates(":/crt/mozilla-root-cas.txt");
+    QSslConfiguration::defaultConfiguration().addCaCertificates(":/crt/mozilla-root-cas.crt");
 
 
     //*
