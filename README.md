@@ -1,6 +1,6 @@
 ﻿# Compiling ClipGrab
 
-Pre-compiled packages for ClipGrab (QT5) are available on https://clipgrab.org
+Pre-compiled packages for ClipGrab (Qt5) are available on https://clipgrab.org
 But compiling ClipGrab is really easy!
 
 ## Prerequisites
