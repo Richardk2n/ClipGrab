@@ -9,11 +9,20 @@ find_package(Qt6 REQUIRED COMPONENTS Core5Compat Gui LinguistTools Network WebEn
 
 qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES bg bn ca cs de el es eu fa fi fr hr hu id it ja ko lt mk nl no pa pl pt ro ru si sr strings sv sw tr vi zh)
 
+# Resources:
+qt_add_translations(TARGETS clipgrab TS_OUTPUT_DIRECTORY i18n RESOURCE_PREFIX lng)
+
+set(res
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/images.qrc
+    ${CMAKE_CURRENT_SOURCE_DIR}/html/html.qrc
+)
+
 add_subdirectory(src)
 
 target_compile_definitions(clipgrab PRIVATE
     CLIPGRAB_VERSION=3.9.14
 )
+
 
 target_link_libraries(clipgrab PRIVATE
     Qt::Core
@@ -23,34 +32,6 @@ target_link_libraries(clipgrab PRIVATE
     Qt::WebEngineWidgets
     Qt::Widgets
     Qt::Xml
-)
-
-
-# Resources:
-
-qt_add_translations(TARGETS clipgrab TS_OUTPUT_DIRECTORY i18n RESOURCE_PREFIX lng)
-set(resources2_resource_files
-    "mozilla-root-cas.txt"
-)
-
-qt_add_resources(clipgrab "resources2"
-    PREFIX
-        "/crt"
-    FILES
-        ${resources2_resource_files}
-)
-set(resources3_resource_files
-    "loading-failed.html"
-    "loading-progress.html"
-    "loading-styles.css"
-    "search-styles.css"
-)
-
-qt_add_resources(clipgrab "resources3"
-    PREFIX
-        "/search"
-    FILES
-        ${resources3_resource_files}
 )
 
 if(MACOS)

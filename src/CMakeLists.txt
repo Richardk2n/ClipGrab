@@ -14,7 +14,7 @@ qt_add_executable(clipgrab WIN32 MACOSX_BUNDLE
     video.cpp video.h
     web_engine_view.cpp web_engine_view.h
     youtube_dl.cpp youtube_dl.h
-    ../images/images.qrc
+    ${res}
 )
 target_include_directories(clipgrab PRIVATE
     .

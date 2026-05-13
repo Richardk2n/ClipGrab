@@ -8,5 +8,4 @@
         <file>loading-failed.html</file>
         <file>search-styles.css</file>
     </qresource>
-    <qresource prefix="/"/>
 </RCC>
