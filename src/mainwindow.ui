@@ -64,11 +64,6 @@ QToolBox::tab:hover
 	background: #e8e8e8;
 }
 
-#scrollAreaWidgetContents
-{
-background:#ffffff
-}
-
 QToolTip
 {
   font-size: 14px;

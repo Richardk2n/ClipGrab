@@ -101,6 +101,9 @@ void MainWindow::init()
     //*
     QWebEngineProfile* profile = new QWebEngineProfile;
     this->searchPage = new SearchWebEnginePage(profile);
+    auto palette = QApplication::palette();
+    auto bgColor = palette.color(QWidget::backgroundRole());
+    searchPage->setBackgroundColor(bgColor);
     ui.searchWebEngineView->setPage(searchPage);
     ui.searchWebEngineView->settings()->setAttribute(QWebEngineSettings::FocusOnNavigationEnabled, false);
     ui.searchWebEngineView->setContextMenuPolicy(Qt::NoContextMenu);
@@ -634,12 +637,11 @@ void MainWindow::handleSearchResults(video* searchPlaylist)
         QString fontFamily = "'" + font + "',  sans-serif";
     #endif
     auto palette = QApplication::palette();
-    auto bgColor = palette.color(QWidget::backgroundRole());
     auto fgColor = palette.color(QWidget::foregroundRole());
     searchHtml.append("<!doctype html>");
     searchHtml.append("<html>");
     searchHtml.append("<head>");
-    searchHtml.append("<style>body {font-family: " + fontFamily + "; background: " + bgColor.name() + "} a {color: " + fgColor.name() + "}</style>");
+    searchHtml.append("<style>body {font-family: " + fontFamily + "} a {color: " + fgColor.name() + "}</style>");
     searchHtml.append("<link rel=\"stylesheet\" href=\"qrc:///search/search-styles.css\"></link>");
     searchHtml.append("</head>");
     searchHtml.append("<body>");
