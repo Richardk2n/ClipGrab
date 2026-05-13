@@ -1,11 +1,11 @@
 ﻿# Compiling ClipGrab
 
-Pre-compiled packages for ClipGrab are available on https://clipgrab.org
+Pre-compiled packages for ClipGrab (QT5) are available on https://clipgrab.org
 But compiling ClipGrab is really easy!
 
 ## Prerequisites
 
-You need to install the Qt5 developer libraries in order to compile the program.
+You need to install the ~Qt5~ developer libraries in order to compile the program.
 
 On Ubuntu and Debian-based system, you can install the necessary libraries like this:
 ~sudo apt install qtbase5-dev qtwebengine5-dev~
