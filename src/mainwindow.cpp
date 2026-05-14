@@ -637,11 +637,27 @@ void MainWindow::handleSearchResults(video* searchPlaylist)
         QString fontFamily = "'" + font + "',  sans-serif";
     #endif
     auto palette = QApplication::palette();
+    auto bgColor = palette.color(QWidget::backgroundRole());
     auto fgColor = palette.color(QWidget::foregroundRole());
+
+    double r = 0.4;
+    QColor mixed{
+        static_cast<int>(bgColor.red()*(1-r) + fgColor.red()*r),
+        static_cast<int>(bgColor.green()*(1-r) + fgColor.green()*r),
+        static_cast<int>(bgColor.blue()*(1-r) + fgColor.blue()*r),
+        255
+    };
+    r = 0.8;
+    QColor mixedh{
+        static_cast<int>(bgColor.red()*(1-r) + fgColor.red()*r),
+        static_cast<int>(bgColor.green()*(1-r) + fgColor.green()*r),
+        static_cast<int>(bgColor.blue()*(1-r) + fgColor.blue()*r),
+        255
+    };
     searchHtml.append("<!doctype html>");
     searchHtml.append("<html>");
     searchHtml.append("<head>");
-    searchHtml.append("<style>body {font-family: " + fontFamily + "} a {color: " + fgColor.name() + "}</style>");
+    searchHtml.append("<style>body {font-family: " + fontFamily + "} a {color: " + fgColor.name() + "} ::-webkit-scrollbar-thumb {background: " + mixed.name() + "}  ::-webkit-scrollbar-thumb:hover {background: " + mixedh.name() + "}</style>");
     searchHtml.append("<link rel=\"stylesheet\" href=\"qrc:///search/search-styles.css\"></link>");
     searchHtml.append("</head>");
     searchHtml.append("<body>");
