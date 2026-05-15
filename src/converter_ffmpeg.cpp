@@ -45,7 +45,7 @@ void ffmpegThread::run()
         for (int i=0; i < concatFiles.size(); i++)
         {
             ffmpegCall.append("-i");
-            ffmpegCall.append("\"" + concatFiles.at(i)->fileName() + "\"");
+            ffmpegCall.append(concatFiles.at(i)->fileName());
         }
         ffmpegCall.append("-acodec");
         ffmpegCall << "copy" << "-vcodec" << "copy" << "-f" << originalFormat.split(".").at(1) + " \"" + concatTarget->fileName() + "\"";
@@ -53,7 +53,7 @@ void ffmpegThread::run()
     else
     {
         ffmpegCall.append("-i");
-        ffmpegCall.append("\"" + inputFile->fileName() + "\"");
+        ffmpegCall.append(inputFile->fileName());
 
 
         ffmpeg = new QProcess(parent);
@@ -155,9 +155,9 @@ void ffmpegThread::run()
             }
         }
 
-        ffmpegCall << "-metadata" << "title=\"" + metaTitle + "\"";
-        ffmpegCall << "-metadata" << "author=\"" + metaArtist + "\"";
-        ffmpegCall << "-metadata" << "artist=\"" + metaArtist + "\"";
+        ffmpegCall << "-metadata" << "title=" + metaTitle;
+        ffmpegCall << "-metadata" << "author=" + metaArtist;
+        ffmpegCall << "-metadata" << "artist=" + metaArtist;
 
         //Determine container format if not given
         if (container.isEmpty())
@@ -197,7 +197,7 @@ void ffmpegThread::run()
         }
 
         target.append("." + container);
-        ffmpegCall += "\"" + target + "\"";
+        ffmpegCall << target;
     }
 
     qDebug() << "Executing ffmpeg: " << ffmpegPath << " " << ffmpegCall;
