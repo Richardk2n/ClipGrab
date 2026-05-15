@@ -36,23 +36,28 @@ void ffmpegThread::run()
     bool audioCodecAccepted = false;
     bool videoCodecAccepted = false;
 
-    ffmpegCall = settings.value("ffmpegPath", "ffmpeg").toString() + " -y";
+    QString ffmpegPath = settings.value("ffmpegPath", "ffmpeg").toString();
+    QStringList ffmpegCall;
+    ffmpegCall.append("-y");
 
     if (!concatFiles.empty())
     {
         for (int i=0; i < concatFiles.size(); i++)
         {
-            ffmpegCall.append(" -i \"" + concatFiles.at(i)->fileName() + "\"" );
+            ffmpegCall.append("-i");
+            ffmpegCall.append("\"" + concatFiles.at(i)->fileName() + "\"");
         }
-        ffmpegCall.append(" -acodec copy -vcodec copy -f " + originalFormat.split(".").at(1) + " \"" + concatTarget->fileName() + "\"");
+        ffmpegCall.append("-acodec");
+        ffmpegCall << "copy" << "-vcodec" << "copy" << "-f" << originalFormat.split(".").at(1) + " \"" + concatTarget->fileName() + "\"";
     }
     else
     {
-        ffmpegCall.append(" -i \"" + inputFile->fileName() + "\"" );
+        ffmpegCall.append("-i");
+        ffmpegCall.append("\"" + inputFile->fileName() + "\"");
 
 
         ffmpeg = new QProcess(parent);
-        ffmpeg->start(ffmpegCall);
+        ffmpeg->start(ffmpegPath, ffmpegCall);
         ffmpeg->waitForFinished(-1);
         QString videoInfo = ffmpeg->readAllStandardError();
         ffmpeg->close();
@@ -99,13 +104,13 @@ void ffmpegThread::run()
 
         if (acceptedAudioCodec[0] == "none")
         {
-            ffmpegCall = ffmpegCall + " -an";
+            ffmpegCall += "-an";
         }
         else
         {
             if (audioCodecAccepted == true)
             {
-                ffmpegCall = ffmpegCall + " -acodec copy";
+                ffmpegCall << "-acodec" << "copy";
             }
             else
             {
@@ -113,46 +118,46 @@ void ffmpegThread::run()
                 {
                     if (audioCodec.contains("libvorbis"))
                     {
-                        ffmpegCall = ffmpegCall + " -acodec libvorbis -aq 9";
+                        ffmpegCall << "-acodec" << "libvorbis" << "-aq" << "9";
                     }
                     else
                     {
-                        ffmpegCall = ffmpegCall + " -acodec vorbis -aq 9 -strict experimental";
+                        ffmpegCall << "-acodec" << "vorbis" << "-aq" << "9" << "-strict" << "experimental";
                     }
                 }
                 else
                 {
-                    ffmpegCall = ffmpegCall + " -acodec " + acceptedAudioCodec[0] + " -ab 256k";
+                    ffmpegCall << "-acodec" << acceptedAudioCodec[0] << "-ab" << "256k";
                 }
             }
         }
 
         if (acceptedVideoCodec[0] == "none")
         {
-            ffmpegCall = ffmpegCall + " -vn";
+            ffmpegCall += "-vn";
         }
         else
         {
             if (videoCodecAccepted == true)
             {
-                ffmpegCall = ffmpegCall + " -vcodec copy";
+                ffmpegCall << "-vcodec" << "copy";
             }
             else
             {
                 if (videoBitrate.toInt() > 100)
                 {
-                    ffmpegCall = ffmpegCall + " -vb " + QString::number(videoBitrate.toInt()*1.2) + "k" + " -vcodec " + acceptedVideoCodec[0];
+                    ffmpegCall << "-vb" << QString::number(videoBitrate.toInt()*1.2) + "k" << "-vcodec" << acceptedVideoCodec[0];
                 }
                 else
                 {
-                    ffmpegCall = ffmpegCall + " -vcodec " + acceptedVideoCodec[0];
+                    ffmpegCall << "-vcodec" << acceptedVideoCodec[0];
                 }
             }
         }
 
-        ffmpegCall = ffmpegCall + " -metadata title=\"" + metaTitle + "\"";
-        ffmpegCall = ffmpegCall + " -metadata author=\"" + metaArtist + "\"";
-        ffmpegCall = ffmpegCall + " -metadata artist=\"" + metaArtist + "\"";
+        ffmpegCall << "-metadata" << "title=\"" + metaTitle + "\"";
+        ffmpegCall << "-metadata" << "author=\"" + metaArtist + "\"";
+        ffmpegCall << "-metadata" << "artist=\"" + metaArtist + "\"";
 
         //Determine container format if not given
         if (container.isEmpty())
@@ -192,13 +197,13 @@ void ffmpegThread::run()
         }
 
         target.append("." + container);
-        ffmpegCall = ffmpegCall + " \"" + target + "\"";
+        ffmpegCall += "\"" + target + "\"";
     }
 
-    qDebug() << "Executing ffmpeg: " << ffmpegCall;
+    qDebug() << "Executing ffmpeg: " << ffmpegPath << " " << ffmpegCall;
 
     ffmpeg = new QProcess(parent);
-    ffmpeg->start(ffmpegCall);
+    ffmpeg->start(ffmpegPath, ffmpegCall);
     ffmpeg->waitForFinished(-1);
     qDebug() << ffmpeg->readAllStandardError();
     qDebug() << ffmpeg->readAllStandardOutput();
@@ -340,14 +345,14 @@ bool converter_ffmpeg::isAvailable()
         ffmpegPath =  "\"" + QApplication::applicationDirPath() + "/ffmpeg\"";
     #else
 
-        testProcess.start("avconv -v quiet");
+        testProcess.start("avconv", {"-v", "quiet"});
         if (testProcess.waitForFinished())
         {
             ffmpegPath = "avconv";
         }
         else
         {
-            testProcess.start("ffmpeg -v quiet");
+            testProcess.start("ffmpeg", {"-v", "quiet"});
             if (testProcess.waitForFinished())
             {
                 ffmpegPath = "ffmpeg";
@@ -358,10 +363,11 @@ bool converter_ffmpeg::isAvailable()
                 settings.setValue("ffmpegPath", "");
                 return false;
             }
+
         }
     #endif
 
-    testProcess.start(ffmpegPath + " -formats");
+    testProcess.start(ffmpegPath, {"-formats"});
     testProcess.waitForFinished();
     QString supportedFormats = testProcess.readAllStandardOutput();
 

@@ -38,7 +38,7 @@ class ffmpegThread : public QThread
     QString metaArtist;
     QStringList acceptedAudioCodec;
     QStringList acceptedVideoCodec;
-    QString ffmpegCall;
+    QStringList ffmpegCall;
     QProcess* ffmpeg;
 
     QList<QFile*> concatFiles;

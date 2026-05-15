@@ -792,7 +792,7 @@ void ClipGrab::openTargetFolder(video *video)
             return;
         #elif defined(Q_OS_WIN)
             QProcess* explorerProcess = new QProcess();
-            explorerProcess->start("explorer.exe /select,"  + QDir::toNativeSeparators(video->getFinalFilename()));
+            explorerProcess->start("explorer.exe" {"/select,"  + QDir::toNativeSeparators(video->getFinalFilename())});
             return;
         #endif
     }
